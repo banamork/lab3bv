@@ -1,5 +1,7 @@
 #include "class.hpp"
 
+using namespace diagram;
+
 timing_diagram::timing_diagram(){
     unsigned char classiq = '1';
     memset(signal, '-', 32);

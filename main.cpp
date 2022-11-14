@@ -3,6 +3,7 @@
 #include "class.hpp"
 
 using namespace std;
+using namespace diagram;
 
 int main(){
     cout << "Hi!" << endl;
