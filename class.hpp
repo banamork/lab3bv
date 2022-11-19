@@ -1,6 +1,6 @@
 #include <iostream>
+#include <ostream>
 
-using namespace std;
 
 namespace diagram{
     class timing_diagram{
@@ -24,5 +24,10 @@ namespace diagram{
             int copy(int number);
             int move_right(int number);
             int move_left(int number);
+            timing_diagram operator+(int number);
+            timing_diagram operator-(int number);
+            timing_diagram operator*(int number);
+            timing_diagram operator=(unsigned char user_choice);
+            friend std::ostream & operator<<(std::ostream &os, timing_diagram &diagr); 
    };
 }    

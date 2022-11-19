@@ -3,11 +3,10 @@
 #include "class.hpp"
 
 using namespace std;
-using namespace diagram;
 
 int main(){
     cout << "Hi!" << endl;
-    timing_diagram dia;
+    diagram::timing_diagram dia;
     int flag = 0;
     do{
         int var = menu();
@@ -19,7 +18,7 @@ int main(){
                 unsigned char user_2;
                 cout << "Enter your signal:" << endl;
                 cin >> user_2;
-                dia.set_durability(user_2);
+                dia = (user_2);
                 break;
             case 3:
                 char user_3;
@@ -29,7 +28,7 @@ int main(){
                 break;
             case 4:
                 cout << "Your signal is:" << endl;
-                dia.print();
+                cout << dia;
                 break;
             case 5:
                 unsigned char user_5;
@@ -41,25 +40,19 @@ int main(){
                 int number;
                 cout << "Set amount:" << endl;
                 cin >> number;
-                if(dia.copy(number) == 1){
-                    cout << "Not size for this." << endl;
-                    break;
-                }
-                else{
-                    dia.copy(number);
-                    break;
-                }
+                dia * (number);
+                break;
             case 7:
                 int timel;
                 cout << "Set time:" << endl;
                 cin >> timel;
-                dia.move_left(timel);
+                dia + (timel);
                 break;
             case 8:
                 int timer;
                 cout << "Set time:" << endl;
                 cin >> timer;
-                dia.move_right(timer);
+                dia - (timer);
                 break;
             default:
                 break;
