@@ -4,8 +4,8 @@ namespace diagram{
     
 timing_diagram::timing_diagram(){
     unsigned char classiq = '1';
-    memset(signal, '-', 32);
-    for(int i = 0; i < 16; i++){
+    memset(signal, '-', msize);
+    for(int i = 0; i < msize; i++){
         signal[i] = classiq;
         nsize = nsize + 1;
         durability = durability + ONE;
@@ -13,27 +13,7 @@ timing_diagram::timing_diagram(){
 }
 
 timing_diagram::~timing_diagram(){
-    unsigned char free_element;
-    unsigned char del_element;
-    for(int i = 0; i <= nsize; i++){
-        del_element = signal[i];
-        signal[i] = free_element;
-        nsize = nsize - 1;
-        switch(del_element){
-            case '0':
-                durability = durability - ZERO;
-                break;
-            case '1':
-                durability = durability - ONE;
-                break;
-            case 'x':
-                durability = durability - NON;
-                break;
-            default:
-                break;
-        }
     }
-}
 
 int timing_diagram::set_durability(unsigned char user_choice){
     if (nsize >= msize)
@@ -337,11 +317,12 @@ std::ostream & operator<<(std::ostream &os, timing_diagram &diagr){
                 break;
         }
     }
-    std::memset(diagr.signal, '-', 32);
+    std::memset(diagr.signal, '-', diagr.msize);
     std::cout << std::endl;
     std::cout << diagr.nsize << std::endl;
     diagr.nsize = 0;
     return os;
 }
+
 
 }
