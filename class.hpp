@@ -1,21 +1,22 @@
 #include <iostream>
 #include <ostream>
-
+#include <cassert>
+#include <string>
 
 namespace diagram{
     class timing_diagram{
         private:
             int durability = 0;
-            int msize = 32;
+            int msize = 0;
             int nsize = 0;
-            unsigned char signal[32];
+            unsigned char *signal;
             enum {
                 NON = 0,
                 ZERO = 1,
                 ONE = 2
             };
         public:
-            timing_diagram();
+            timing_diagram(int asize = 7);
             ~timing_diagram();
             int set_durability(unsigned char user_choice);
             int set_ascii(unsigned char user_input);
@@ -28,6 +29,7 @@ namespace diagram{
             timing_diagram operator-(int number);
             timing_diagram operator*(int number);
             timing_diagram operator=(unsigned char user_choice);
-            friend std::ostream & operator<<(std::ostream &os, timing_diagram &diagr); 
-   };
+            friend std::ostream & operator<<(std::ostream &os, timing_diagram &diagr);  
+            void set_size(int resize);
+    };
 }    

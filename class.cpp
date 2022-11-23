@@ -1,74 +1,36 @@
+#include <iostream>
+#include <cassert>
+#include <string>
 #include "class.hpp"
 
-namespace diagram{
-    
-timing_diagram::timing_diagram(){
-    unsigned char classiq = '1';
-    memset(signal, '-', msize);
-    for(int i = 0; i < msize; i++){
-        signal[i] = classiq;
-        nsize = nsize + 1;
+namespace diagram {
+
+timing_diagram::timing_diagram(int asize){
+    msize = asize;
+    signal = new unsigned char[asize];
+    for(int i = 0; i < asize; i++){
+        signal[i] = '1';
         durability = durability + ONE;
-    }
+        nsize = nsize + 1;
+        }
 }
 
 timing_diagram::~timing_diagram(){
-    }
+    delete []signal;
+}
+
+void timing_diagram::set_size(int resize){
+    delete []signal;
+    nsize = 0;
+    msize = resize;
+    durability = 0;
+    signal = new unsigned char[resize];
+    memset(signal, '-', msize);
+}
 
 int timing_diagram::set_durability(unsigned char user_choice){
-    if (nsize >= msize)
-        return 1;
-    else{
-        for(nsize; nsize < msize; nsize++){
-            signal[nsize] = user_choice;
-            switch(user_choice){
-                case '0':
-                    durability = durability + ZERO;
-                    break;
-                case '1':
-                    durability = durability + ONE;
-                    break;
-                case 'x':
-                    durability = durability + NON;
-                    break;
-                default:
-                    break;
-            }
-        }
-        return 0;
-    }
-}
-
-int timing_diagram::set_ascii(unsigned char user_input){
-    if(nsize >= msize)
-        return 1;
-    else{
-        signal[nsize] = user_input;
-        nsize = nsize + 1;
-        switch(user_input){
-            case '0':
-                durability = durability + ZERO;
-                break;
-            case '1':
-                durability = durability + ONE;
-                break;
-            case 'x':
-                durability = durability + NON;
-                break;
-            default:
-                break;
-            }
-        return 0;
-    }
-}
-
-int timing_diagram::set_normal(unsigned char user_choice){
-    if(nsize >= msize){
-        return 1;
-    }
-    else{
-        signal[nsize] = user_choice;
-        nsize = nsize + 1;
+    for(int i = 0; i < msize; i++){
+        signal[i] = user_choice;
         switch(user_choice){
             case '0':
                 durability = durability + ZERO;
@@ -81,9 +43,68 @@ int timing_diagram::set_normal(unsigned char user_choice){
                 break;
             default:
                 break;
+            }
+        nsize = nsize + 1;
         }
-        return 0;
+    return 0;
+}
+
+int timing_diagram::set_ascii(unsigned char user_input){ 
+    if(nsize == msize){
+        unsigned char *signal2;
+        signal2 = new unsigned char[msize + 1];
+        for(int i = 0; i < msize; i++){
+            signal2[i] = signal[i];
+        }
+        msize = msize + 1;
+        delete []signal;
+        signal = signal2;
     }
+    signal[nsize] = user_input;
+    nsize = nsize + 1;
+    switch(user_input){
+        case '0':
+            durability = durability + ZERO;
+            break;
+        case '1':
+            durability = durability + ONE;
+            break;
+        case 'x':
+            durability = durability + NON;
+            break;
+        default:
+            break;
+        }
+    return 0;
+}
+
+int timing_diagram::set_normal(unsigned char user_choice){
+     if(nsize == msize){
+        unsigned char *signal2;
+        signal2 = new unsigned char[msize + 1];
+        for(int i = 0; i < msize; i++){
+            signal2[i] = signal[i];
+        }
+        msize = msize + 1;
+        delete []signal;
+        signal = signal2;
+    }
+    signal[nsize] = user_choice;
+    nsize = nsize + 1;
+    switch(user_choice){
+        case '0':
+            durability = durability + ZERO;
+            break;
+        case '1':
+            durability = durability + ONE;
+            break;
+        case 'x':
+            durability = durability + NON;
+            break;
+        default:
+            break;
+    }
+    return 0;
 }
 
 void timing_diagram::print(){
@@ -108,7 +129,7 @@ void timing_diagram::print(){
                 break;
         }
     }
-    memset(signal, '-', 32);
+    memset(signal, '-', msize);
     std::cout << std::endl;
     std::cout << nsize << std::endl;
     nsize = 0;
@@ -116,18 +137,25 @@ void timing_diagram::print(){
 
 int timing_diagram::copy(int number){
     int comparison = number * nsize;
-    if(comparison < msize){
-        int i = 0;
-        while(nsize != comparison){
-            signal[nsize] = signal[i];
-            i = i + 1;
-            nsize = nsize + 1;
+    while(comparison < msize){
+        unsigned char *signal2;
+        signal2 = new unsigned char[msize + 1];
+        for(int i = 0; i < msize; i++){
+            signal2[i] = signal[i];
         }
-        return 0;
+        msize = msize + 1;
+        delete []signal;
+        signal = signal2;
+    }  
+    int i = 0;
+    while(nsize != comparison){
+        signal[nsize] = signal[i];
+        i = i + 1;
+        nsize = nsize + 1;
     }
-    else return 1;
+    return 0;
 }
-
+    
 int timing_diagram::move_right(int number){
     if(durability - number > 0){
         while(number >= 0){
@@ -152,7 +180,7 @@ int timing_diagram::move_right(int number){
             unsigned char tmp;
             tmp = signal[msize - 1];
             for (int i = msize - 1; i >= 0; i--){
-                signal[i] = signal[i-1];
+                signal[i] = signal[i - 1];
             }
             signal[0] = tmp;
         }
@@ -219,7 +247,7 @@ timing_diagram timing_diagram::operator+(int number){
             unsigned char tmp;
             tmp = signal[msize - 1];
             for (int i = msize - 1; i >= 0; i--){
-                signal[i] = signal[i-1];
+                signal[i] = signal[i - 1];
             }
             signal[0] = tmp;
         }
@@ -260,16 +288,24 @@ timing_diagram timing_diagram::operator-(int number){
     return our_dia;
 }
 
-timing_diagram timing_diagram::operator*(int number){
+timing_diagram timing_diagram::operator*(int number){ 
     timing_diagram our_dia;
     int comparison = number * nsize;
-    if(comparison < msize){
-        int i = 0;
-        while(nsize != comparison){
-            signal[nsize] = signal[i];
-            i = i + 1;
-            nsize = nsize + 1;
+    while(comparison < msize){
+        unsigned char *signal2;
+        signal2 = new unsigned char[msize + 1];
+        for(int i = 0; i < msize; i++){
+            signal2[i] = signal[i];
         }
+        msize = msize + 1;
+        delete []signal;
+        signal = signal2;
+    }
+    int i = 0;
+    while(nsize != comparison){
+        signal[nsize] = signal[i];
+        i = i + 1;
+        nsize = nsize + 1;
     }
     return our_dia;
 }
@@ -322,7 +358,6 @@ std::ostream & operator<<(std::ostream &os, timing_diagram &diagr){
     std::cout << diagr.nsize << std::endl;
     diagr.nsize = 0;
     return os;
+    }
 }
 
-
-}

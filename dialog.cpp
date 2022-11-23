@@ -14,10 +14,11 @@ int menu(){
     cout << "6 - Copy." << endl;
     cout << "7 - Move to left." << endl;
     cout << "8 - Move to right." << endl;
+    cout << "9 - Delete and new size." << endl;
     cout << endl << "....................................................................." << endl;
     double choice{0};
     cin >> choice;
-    if(cin.fail() || choice > 8 || choice < 0) {
+    if(cin.fail() || choice > 9 || choice < 0) {
         cin.clear();
         cin.ignore();
         cout << "Incorrect input! Repeat please!" << endl;

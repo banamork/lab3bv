@@ -54,6 +54,12 @@ int main(){
                 cin >> timer;
                 dia - (timer);
                 break;
+            case 9:
+                int new_size;
+                cout << "Set new size:" << endl;
+                cin >> new_size;
+                dia.set_size(new_size);
+                break;
             default:
                 break;
         }
