@@ -5,7 +5,7 @@
 
 namespace diagram {
 
-timing_diagram::timing_diagram(int asize){
+timing_diagram::timing_diagram(int asize){    //contruct
     msize = asize;
     signal = new unsigned char[asize];
     for(int i = 0; i < asize; i++){
@@ -15,11 +15,30 @@ timing_diagram::timing_diagram(int asize){
         }
 }
 
-timing_diagram::~timing_diagram(){
+timing_diagram::~timing_diagram(){         //destruct
+    msize = 0;
+    nsize = 0;
+    durability = 0;
     delete []signal;
 }
 
-void timing_diagram::set_size(int resize){
+timing_diagram::timing_diagram(const timing_diagram & copied_diagram){   //copy construct
+    durability = copied_diagram.durability;
+    msize = copied_diagram.msize;
+    nsize = copied_diagram.msize;
+    signal = copied_diagram.signal;
+}
+
+timing_diagram timing_diagram::operator=(timing_diagram c_dia){        //copy operator
+    timing_diagram a_dia;
+    durability = c_dia.durability;
+    msize = c_dia.msize;
+    nsize = c_dia.nsize;
+    signal = c_dia.signal;
+    return a_dia;
+}
+
+void timing_diagram::set_size(int resize){    //resize signal
     delete []signal;
     nsize = 0;
     msize = resize;
@@ -310,7 +329,7 @@ timing_diagram timing_diagram::operator*(int number){
     return our_dia;
 }
 
-timing_diagram timing_diagram::operator=(unsigned char user_choice){
+timing_diagram timing_diagram::operator/(unsigned char user_choice){
     timing_diagram our_dia;
     for(nsize; nsize < msize; nsize++){
         signal[nsize] = user_choice;

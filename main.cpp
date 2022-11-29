@@ -18,7 +18,7 @@ int main(){
                 unsigned char user_2;
                 cout << "Enter your signal:" << endl;
                 cin >> user_2;
-                dia = (user_2);
+                dia / (user_2);
                 break;
             case 3:
                 char user_3;
