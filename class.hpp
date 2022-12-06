@@ -7,6 +7,7 @@ class tests;
 
 namespace diagram{
     class timing_diagram{
+        friend tests;
         private:
             int durability = 0;
             int msize = 0;
@@ -21,6 +22,7 @@ namespace diagram{
             timing_diagram(int asize = 7);
             ~timing_diagram();
             timing_diagram(const timing_diagram & copied_diagram);
+            timing_diagram(timing_diagram & moved_diagram);
             int set_durability(unsigned char user_choice);
             int set_ascii(unsigned char user_input);
             int set_normal(unsigned char user_choice);
@@ -35,6 +37,7 @@ namespace diagram{
             friend std::ostream & operator<<(std::ostream &os, timing_diagram &diagr);  
             void set_size(int resize);
             timing_diagram operator=(timing_diagram c_dia);
-            friend tests;
     };
 }
+
+

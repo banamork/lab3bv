@@ -25,16 +25,30 @@ timing_diagram::~timing_diagram(){         //destruct
 timing_diagram::timing_diagram(const timing_diagram & copied_diagram){   //copy construct
     durability = copied_diagram.durability;
     msize = copied_diagram.msize;
-    nsize = copied_diagram.msize;
-    signal = copied_diagram.signal;
+    nsize = copied_diagram.nsize;
+    signal = new unsigned char[msize];
+    for(int i = 0; i < msize; i++){
+        signal[i] = copied_diagram.signal[i];
+    }
+}
+
+timing_diagram::timing_diagram(timing_diagram & moved_diagram){   //moving contruct
+    durability = moved_diagram.durability;
+    msize = moved_diagram.msize;
+    nsize = moved_diagram.msize;
+    signal = moved_diagram.signal;
+    moved_diagram.signal = nullptr;
 }
 
 timing_diagram timing_diagram::operator=(timing_diagram c_dia){        //copy operator
     timing_diagram a_dia;
-    durability = c_dia.durability;
-    msize = c_dia.msize;
-    nsize = c_dia.nsize;
-    signal = c_dia.signal;
+    a_dia.durability = c_dia.durability;
+    a_dia.msize = c_dia.msize;
+    a_dia.nsize = c_dia.nsize;
+    a_dia.signal = new unsigned char[msize];
+    for(int i = 0; i < msize; i++){
+        a_dia.signal[i] = c_dia.signal[i];
+    }
     return a_dia;
 }
 

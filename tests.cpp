@@ -1,5 +1,6 @@
 #include <iostream>
 #include "class.hpp"
+#include <cstdint>
 
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
@@ -21,9 +22,20 @@ class tests{
             durab = td.durability;
             return durab;
         }
+        int true_copy(diagram::timing_diagram td){
+            diagram::timing_diagram copdia;
+            int durab = td.durability;
+            int ms = td.msize;
+            int ns = td.nsize;
+            td = copdia;
+            if(td.durability != durab || td.nsize != ns || td.msize != ms)
+                return 1;
+            else 
+                return 0;
+        }
 };
 
-TEST_CASE("Timing Diagram test1!"){
+TEST_CASE( "Timing Diagram test1!" ){
     std::cout << "Test has been started." << std::endl;
     SECTION("SIZE: BASIC SIZE AND RESIZE"){
         diagram::timing_diagram test1;
@@ -53,9 +65,14 @@ TEST_CASE("Timing Diagram test1!"){
         test4.set_normal('0');
         REQUIRE((before + 1) == num4.return_durability(test4));
     }
+    SECTION("TEST COPY CONSTRUCT"){
+        diagram::timing_diagram test5;
+        tests num5;
+        REQUIRE(0 == num5.true_copy(test5));
+    }
 }
 
-TEST_CASE("Timing Diagram test2"){
+TEST_CASE( "Timing Diagram test2!" ){
     std::cout << "Test has been started." << std::endl;
     SECTION("SIZE: RESIZE"){
         diagram::timing_diagram test1;
@@ -83,5 +100,10 @@ TEST_CASE("Timing Diagram test2"){
         int before = num4.return_durability(test4);
         test4.set_normal('1');
         REQUIRE((before + 2) == num4.return_durability(test4));
+    }
+    SECTION("TEST COPY CONSTRUCT"){
+        diagram::timing_diagram test5;
+        tests num5;
+        REQUIRE(0 == num5.true_copy(test5));
     }
 }
